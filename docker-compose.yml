@@ -1,0 +1,10 @@
+version: '3'
+services:
+  webtemplate-react:
+    image: webtemplate-react:latest
+    ports:
+      - 80:80
+  webtemplate-flask:
+    image: webtemplate-flask:latest
+    ports:
+      - 8080:8080

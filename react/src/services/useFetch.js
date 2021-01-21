@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
+import api from "./api";
 import { useAuth } from "./auth";
-
-const baseUrl = "http://localhost:5000/";
 
 export default function useFetch(url) {
   const isMounted = useRef(false);
@@ -14,7 +13,7 @@ export default function useFetch(url) {
     isMounted.current = true;
     async function init() {
       try {
-        const response = await fetch(baseUrl + url, {
+        const response = await fetch(api + url, {
           headers: { "X-Auth": token },
         });
         if (response.ok) {

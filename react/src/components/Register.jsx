@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import api from "../services/api";
 import { useAuth } from "../services/auth";
 
 const Register = () => {
@@ -18,7 +19,7 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/user/register", {
+      const res = await fetch(api + "/user/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -28,7 +29,7 @@ const Register = () => {
         }),
       });
       if (!res.ok) throw new Error(await res.text());
-      history.replace("/");
+      history.replace("/login");
     } catch (err) {
       setError(err.toString());
     }
