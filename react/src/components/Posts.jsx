@@ -2,7 +2,7 @@ import React from "react";
 import useFetch from "../services/useFetch";
 
 const Posts = () => {
-  const { data, loading, error } = useFetch("/posts/all");
+  const { data, loading, error } = useFetch("/posts");
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error.statusText}</p>;
