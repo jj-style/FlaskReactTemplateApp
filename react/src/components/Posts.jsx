@@ -15,6 +15,11 @@ const Posts = () => {
           return (
             <div key={postIdx}>
               <p>{post.title}</p>
+              <small>
+                <p>
+                  <em>{post.timestamp}</em>
+                </p>
+              </small>
               <small>written by: {post.author.username}</small>
               <p>{post.body}</p>
             </div>

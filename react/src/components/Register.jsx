@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import api from "../services/api";
-import { useAuth } from "../services/auth";
 
 const Register = () => {
   const [state, setState] = useState({ username: "", email: "", password: "" });
@@ -13,7 +12,6 @@ const Register = () => {
   };
 
   let history = useHistory();
-  const { setToken } = useAuth();
 
   const register = async (e) => {
     e.preventDefault();

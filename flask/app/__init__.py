@@ -6,10 +6,6 @@ from flask_login import LoginManager
 from flask_cors import CORS
 from config import Config
 
-from app.index.index_resource import Index, Health
-from app.posts.posts_resource import Posts
-from app.user.user_resource import User, Users, Login, Logout, Register
-
 api = Api()
 db = SQLAlchemy()
 migrate = Migrate()
@@ -30,9 +26,14 @@ def create_app():
     migrate.init_app(app, db)
     login.init_app(app)
 
+    from app.index.index_resource import Index, Health
+    from app.posts.posts_resource import Posts, Post
+    from app.user.user_resource import User, Users, Login, Logout, Register
+
     api.add_resource(Index, "/")
     api.add_resource(Health, "/health")
-    api.add_resource(Posts, "/posts")
+    api.add_resource(Posts, "/posts", endpoint="posts_ep")
+    api.add_resource(Post, "/post/<int:post_id>", endpoint="post_ep")
     api.add_resource(Users, "/users")
     api.add_resource(User, "/user/<int:user_id>")
     api.add_resource(Login, "/login")
