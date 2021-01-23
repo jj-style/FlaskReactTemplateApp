@@ -27,13 +27,14 @@ def create_app():
     login.init_app(app)
 
     from app.index.index_resource import Index, Health
-    from app.posts.posts_resource import Posts, Post
+    from app.posts.posts_resource import Posts, Post, PostSlug
     from app.user.user_resource import User, Users, Login, Logout, Register
 
     api.add_resource(Index, "/")
     api.add_resource(Health, "/health")
     api.add_resource(Posts, "/posts", endpoint="posts_ep")
     api.add_resource(Post, "/post/<int:id>", endpoint="post_ep")
+    api.add_resource(PostSlug, "/post/s/<slug>", endpoint="post_slug_ep")
     api.add_resource(Users, "/users")
     api.add_resource(User, "/user/<int:id>", endpoint="user_ep")
     api.add_resource(Login, "/login")
