@@ -1,6 +1,4 @@
-from flask import jsonify
 from flask import request
-from flask import Blueprint
 from flask import redirect
 from flask import url_for
 from flask import current_app
@@ -94,7 +92,7 @@ class Login(Resource):
     def post(self):
         if current_user.is_authenticated:
             print("already logged in")
-            return redirect(url_for("index.index"))
+            return redirect(url_for("api.index"))
 
         # parse content from the body
         body = request.get_json()
@@ -120,7 +118,7 @@ class Login(Resource):
             current_app.config["SECRET_KEY"],
             algorithm="HS512",
         )
-        return jsonify({"token": token})
+        return {"token": token}
 
 
 class Logout(Resource):
@@ -128,4 +126,4 @@ class Logout(Resource):
         if not current_user.is_authenticated:
             return "not logged in", 400
         logout_user()
-        return redirect(url_for("index.index"))
+        return redirect(url_for("api.index"))
