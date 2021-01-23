@@ -109,7 +109,7 @@ class Login(Resource):
     def post(self):
         if current_user.is_authenticated:
             print("already logged in")
-            return redirect(url_for("api.index"))
+            return redirect(url_for("index"))
 
         args = self.reqparse.parse_args()
 
@@ -135,4 +135,4 @@ class Logout(Resource):
         if not current_user.is_authenticated:
             return "not logged in", 400
         logout_user()
-        return redirect(url_for("api.index"))
+        return redirect(url_for("index"))

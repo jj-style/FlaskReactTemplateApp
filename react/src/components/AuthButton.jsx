@@ -1,5 +1,6 @@
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../services/auth";
+import api from "../services/api";
 
 function AuthButton() {
   const history = useHistory();
@@ -10,7 +11,9 @@ function AuthButton() {
       Welcome!{" "}
       <button
         onClick={() => {
-          removeToken(() => history.push("/"));
+          fetch(`${api}/logout`, { headers: { "X-Auth": token } }).then(() => {
+            removeToken(() => history.push("/"));
+          });
         }}
       >
         Sign out
