@@ -17,6 +17,6 @@ class Posts(Resource):
 class Post(Resource):
     @marshal_with(post_response)
     @login_required
-    def get(self, post_id):
-        post = PostModel.query.filter_by(id=post_id).first_or_404()
+    def get(self, id):
+        post = PostModel.query.filter_by(id=id).first_or_404()
         return post

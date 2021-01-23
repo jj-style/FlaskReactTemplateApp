@@ -1,14 +1,12 @@
 from app import db, login
 from flask_login import UserMixin
-from sqlalchemy_serializer import SerializerMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from datetime import datetime
 
 
-class User(db.Model, UserMixin, SerializerMixin):
+class User(db.Model, UserMixin):
     __tablename__ = "user"
-    serialize_only = ("id", "username", "email")
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -36,7 +34,7 @@ post_tags = db.Table(
 )
 
 
-class Post(db.Model, SerializerMixin):
+class Post(db.Model):
     __tablename__ = "post"
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))

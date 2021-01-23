@@ -1,6 +1,11 @@
 from flask_restful import fields
 
-user_response = {"username": fields.String}
+user_response = {
+    "id": fields.Integer,
+    "username": fields.String,
+    "email": fields.String,
+    "uri": fields.Url("user_ep", attribute="user.id"),
+}
 
 
 def password_t(pwd):

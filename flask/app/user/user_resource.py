@@ -54,16 +54,16 @@ class Users(Resource):
 
 class User(Resource):
     @marshal_with(user_response)
-    def get(self, user_id):
+    def get(self, id):
         """Get a user by their ID
 
         Args:
-            user_id (int): unique ID of a user
+            id (int): unique ID of a user
 
         Returns:
             Dict: dictionary of user model or 404 if not found
         """
-        user = UserModel.query.filter_by(id=user_id).first_or_404()
+        user = UserModel.query.filter_by(id=id).first_or_404()
         return user
 
 

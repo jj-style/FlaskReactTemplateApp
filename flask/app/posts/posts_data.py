@@ -6,5 +6,5 @@ post_response = {
     "body": fields.String,
     "timestamp": fields.DateTime,
     "author": fields.Nested(user_response),
-    # "uri": fields.Url("post_ep"),
+    "uri": fields.Url("post_ep"),
 }
