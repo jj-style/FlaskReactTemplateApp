@@ -20,3 +20,11 @@ class Post(Resource):
     def get(self, id):
         post = PostModel.query.filter_by(id=id).first_or_404()
         return post
+
+
+class PostSlug(Resource):
+    @marshal_with(post_response)
+    @login_required
+    def get(self, slug):
+        post = PostModel.query.filter_by(slug=slug).first_or_404()
+        return post

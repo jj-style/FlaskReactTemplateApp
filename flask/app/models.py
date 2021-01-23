@@ -3,6 +3,7 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from datetime import datetime
+from slugify import slugify
 
 
 class User(db.Model, UserMixin):
@@ -52,6 +53,10 @@ class Post(db.Model):
 
     def __repr__(self):
         return "<Post {}>".format(self.body)
+
+    @property
+    def _slug(self):
+        return slugify(self.title)
 
 
 class Tag(db.Model):
