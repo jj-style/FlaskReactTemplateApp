@@ -2,7 +2,7 @@ from flask import request
 from flask import redirect
 from flask import url_for
 from flask import current_app
-from flask_restful import Resource
+from flask_restful import Resource, marshal_with, reqparse
 
 from flask_login import login_user
 from flask_login import logout_user
@@ -13,14 +13,15 @@ from app.models import User as UserModel
 
 from app import db
 from app import login
+from app.user.user_data import user_response, password_t
 
 from datetime import datetime, timedelta
 import jwt
 
 
 @login.request_loader
-def load_user(request):
-    auth_header = request.headers.get("X-Auth", "")
+def load_user(req):
+    auth_header = req.headers.get("X-Auth", "")
     if auth_header == "":
         return None
     try:
@@ -40,6 +41,7 @@ def load_user(request):
 
 
 class Users(Resource):
+    @marshal_with(user_response)
     def get(self):
         """Returns all users in the database
 
@@ -47,10 +49,11 @@ class Users(Resource):
             List<Dict>: - List containing dictionary each representing a user model
         """
         users = UserModel.query.all()
-        return [u.to_dict() for u in users]
+        return users
 
 
 class User(Resource):
+    @marshal_with(user_response)
     def get(self, user_id):
         """Get a user by their ID
 
@@ -61,25 +64,30 @@ class User(Resource):
             Dict: dictionary of user model or 404 if not found
         """
         user = UserModel.query.filter_by(id=user_id).first_or_404()
-        return user.to_dict()
+        return user
 
 
 class Register(Resource):
+    def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument(
+            "username", type=str, location="json", required=True, nullable=False
+        )
+        self.reqparse.add_argument(
+            "email", type=str, location="json", required=True, nullable=False
+        )
+        self.reqparse.add_argument(
+            "password", type=password_t, location="json", required=True, nullable=False
+        )
+        super(Register, self).__init__()
+
     def post(self):
-        # parse content from the body
-        body = request.get_json()
-        username = body.get("username", None)
-        email = body.get("email", None)
-        password = body.get("password", None)
-
-        # bad request if username, email or password missing
-        if not all([username, email, password]):
-            return "Missing info", 400
-
+        args = self.reqparse.parse_args()
+        print(args)
         try:
             # add user to database
-            user = User(username=username, email=email)
-            user.set_password(password)
+            user = UserModel(username=args.username, email=args.email)
+            user.set_password(args.password)
             db.session.add(user)
             db.session.commit()
             return "signed up", 200
@@ -89,26 +97,27 @@ class Register(Resource):
 
 
 class Login(Resource):
+    def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument("username", type=str, location="json", required=True)
+        self.reqparse.add_argument("password", type=str, location="json", required=True)
+        self.reqparse.add_argument(
+            "remember", type=bool, location="json", default=False
+        )
+        super(Login, self).__init__()
+
     def post(self):
         if current_user.is_authenticated:
             print("already logged in")
             return redirect(url_for("api.index"))
 
-        # parse content from the body
-        body = request.get_json()
-        username = body.get("username", None)
-        password = body.get("password", None)
-        remember_me = body.get("remember", False)
+        args = self.reqparse.parse_args()
 
-        # bad request if username or password missing
-        if not all([username, password]):
-            return "Missing info", 400
-
-        user = UserModel.query.filter_by(username=username).first()
-        if user is None or not user.check_password(password):
+        user = UserModel.query.filter_by(username=args.username).first()
+        if user is None or not user.check_password(args.password):
             return "Invalid username or password", 400
 
-        login_user(user, remember=remember_me)
+        login_user(user, remember=args.remember)
         token = jwt.encode(
             {
                 "sub": user.username,
