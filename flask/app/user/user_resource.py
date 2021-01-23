@@ -7,6 +7,7 @@ from flask_restful import Resource, marshal_with, reqparse
 from flask_login import login_user
 from flask_login import logout_user
 from flask_login import current_user
+from flask_login import login_required
 
 from sqlalchemy import exc
 from app.models import User as UserModel
@@ -42,6 +43,7 @@ def load_user(req):
 
 class Users(Resource):
     @marshal_with(user_response)
+    @login_required
     def get(self):
         """Returns all users in the database
 
@@ -54,6 +56,7 @@ class Users(Resource):
 
 class User(Resource):
     @marshal_with(user_response)
+    @login_required
     def get(self, id):
         """Get a user by their ID
 
@@ -131,6 +134,7 @@ class Login(Resource):
 
 
 class Logout(Resource):
+    @login_required
     def get(self):
         if not current_user.is_authenticated:
             return "not logged in", 400
