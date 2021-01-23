@@ -42,4 +42,9 @@ def create_app():
     api.add_resource(Register, "/register")
     api.init_app(app)
 
+    with app.app_context():
+        from app.blueprints.admin.admin import admin_bp
+
+        app.register_blueprint(admin_bp)
+
     return app
