@@ -27,9 +27,6 @@ pip-log.txt
 .tox
 nosetests.xml
 
-# dev
-.vscode/
-
 migrations/
 env/
 app.db

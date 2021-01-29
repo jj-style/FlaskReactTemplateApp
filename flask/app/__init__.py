@@ -34,7 +34,7 @@ def create_app():
     api.add_resource(Health, "/health")
     api.add_resource(Posts, "/posts", endpoint="posts_ep")
     api.add_resource(Post, "/post/<int:id>", endpoint="post_ep")
-    api.add_resource(PostSlug, "/post/s/<slug>", endpoint="post_slug_ep")
+    api.add_resource(PostSlug, "/post/s/<string:slug>", endpoint="post_slug_ep")
     api.add_resource(Users, "/users")
     api.add_resource(User, "/user/<int:id>", endpoint="user_ep")
     api.add_resource(Login, "/login")
@@ -43,6 +43,14 @@ def create_app():
     api.init_app(app)
 
     with app.app_context():
+
+        from app.facades.post.post_factory import PostFactory
+
+        post_factory = PostFactory()
+        app.config["POST_MANAGER"] = post_factory.set_type(
+            app.config["POST_IMPL"]
+        ).new()
+
         from app.blueprints.admin.admin import admin_bp
 
         app.register_blueprint(admin_bp)

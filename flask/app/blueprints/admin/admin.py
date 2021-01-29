@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for
+from flask import current_app as app
 
 from app.models import Post, User
 from app import db
@@ -18,10 +19,9 @@ def add_post():
     form = PostForm()
     if form.validate_on_submit():
         print(f"Adding new post {form.title.data}, {form.body.data}")
-        user = User.query.get(1)
-        new_post = Post(title=form.title.data, body=form.body.data, author=user)
-        db.session.add(new_post)
-        db.session.commit()
+        app.config["POST_MANAGER"].create_post(
+            {"title": form.title.data, "body": form.body.data}
+        )
         return redirect(url_for("app.blueprints.admin.admin.posts"))
     return render_template(
         "add_post.html", form=form, title="Create Post", header="Create a Post"
@@ -30,5 +30,5 @@ def add_post():
 
 @admin_bp.route("/posts")
 def posts():
-    posts = Post.query.all()
+    posts = app.config["POST_MANAGER"].list_posts()
     return render_template("posts.html", title="Posts", posts=posts, header="Posts")

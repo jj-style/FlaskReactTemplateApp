@@ -12,3 +12,5 @@ class Config(object):
 
     WTF_CSRF_ENABLED = True
     SECRET_KEY = "my secret key"
+
+    POST_IMPL = os.getenv("POST_IMPL", "NAIIVE")
