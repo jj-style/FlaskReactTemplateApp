@@ -24,6 +24,6 @@ class SQLPostManager(PostManager):
         db.session.commit()
         return post_response.dump(post), 201
 
-    def get_post_by_slug(self, slug):
+    def get_post_by_slug(self, slug: str):
         post = PostModel.query.filter_by(slug=slug).first_or_404()
         return post_response.dump(post), 200

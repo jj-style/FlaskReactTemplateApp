@@ -8,7 +8,7 @@ class UnknownPostManager(PostManager):
     def create_post(self, req):
         raise NotADirectoryError(f"{__class__.__name__} has no create_post")
 
-    def get_post_by_id(self):
+    def get_post_by_id(self, id):
         raise NotADirectoryError(f"{__class__.__name__} has no get_post_by_id")
 
     def get_post_by_slug(self, slug):

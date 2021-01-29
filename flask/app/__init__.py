@@ -13,10 +13,17 @@ login = LoginManager()
 cors = CORS()
 
 
-def create_app():
+def create_app() -> Flask:
+    """Flask app factory method to create a flask app
+
+    Returns:
+        Flask: flask app
+    """
+    # create core app
     app = Flask(__name__)
     app.config.from_object(Config)
 
+    # register extensions on app
     cors.init_app(
         app,
         resources={r"/*": {"origins": r".*"}},
@@ -26,6 +33,7 @@ def create_app():
     migrate.init_app(app, db)
     login.init_app(app)
 
+    # import and register the flask_restful resources
     from app.index.index_resource import Index, Health
     from app.posts.posts_resource import Posts, Post, PostSlug
     from app.user.user_resource import User, Users, Login, Logout, Register
@@ -44,6 +52,7 @@ def create_app():
 
     with app.app_context():
 
+        # configure and build from facade factories based on config
         from app.facades.post.post_factory import PostFactory
 
         post_factory = PostFactory()
@@ -51,6 +60,7 @@ def create_app():
             app.config["POST_IMPL"]
         ).new()
 
+        # import and register flask blueprints
         from app.blueprints.admin.admin import admin_bp
 
         app.register_blueprint(admin_bp)

@@ -1,3 +1,4 @@
+# Defines request and responses for marshalling/unmarshalling
 from marshmallow import Schema, fields
 
 default_user = {"username": "unknown", "id": 0}

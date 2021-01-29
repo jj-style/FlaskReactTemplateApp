@@ -24,7 +24,7 @@ class NaiivePostManager(PostManager):
         ids = [p.id for p in self.posts]
         self.posts.append({**post, **{"id": max(ids) + 1}})
 
-    def get_post_by_slug(self, slug):
+    def get_post_by_slug(self, slug: str):
         p = next((p for p in self.posts if p.get("slug", "") == slug), None)
         if not p:
             return "Not Found", 404
