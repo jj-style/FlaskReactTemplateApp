@@ -15,7 +15,18 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run Unit Tests
+        working-directory: react
+        run: | 
+          npm install
+          npm test
+
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -25,11 +36,12 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Run Unit Tests
+      - name: Build App with NPM
         working-directory: react
         run: | 
           npm install
-          npm test
+          npm run build
       
       - name: Builds Docker Container
+        working-directory: react
         run: docker build . -t webtemplate-react:latest
