@@ -6,8 +6,8 @@ let initialToken = sessionStorage.getItem("token");
 initialToken = initialToken === "null" ? null : initialToken;
 // const initialToken = null;
 
-export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(initialToken);
+export const AuthProvider = ({ defaultState, children }) => {
+  const [token, setToken] = useState(defaultState || initialToken);
 
   const removeToken = (cb) => {
     setToken(null);

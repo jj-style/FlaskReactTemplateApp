@@ -42,7 +42,7 @@ const Login = () => {
   return (
     <div>
       <p>You must log in to view the page at {from.pathname}</p>
-      <form onSubmit={login}>
+      <form id="loginForm" onSubmit={login}>
         <div>
           <input
             type="text"
