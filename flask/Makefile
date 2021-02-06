@@ -7,7 +7,7 @@ pre-reqs:
 	pip install flake8 pytest
 	if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-.PHONY lint
+.PHONY: lint
 lint: pre-reqs
 	# stop the build if there are Python syntax errors or undefined names
 	flake8 app --count --select=E9,F63,F7,F82 --show-source --statistics
