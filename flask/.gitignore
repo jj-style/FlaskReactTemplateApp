@@ -28,6 +28,6 @@ pip-log.txt
 nosetests.xml
 
 migrations/
-env/
+*env/
 app.db
 *.log

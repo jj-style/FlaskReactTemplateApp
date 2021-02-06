@@ -1,5 +1,5 @@
 .PHONY: all
-all: test build
+all: test npm-build docker-build
 
 .PHONY: test
 test:
