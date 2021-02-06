@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Lint with Flak8
+      - name: Lint with Flake8
         working-directory: flask
         run: make lint
 
