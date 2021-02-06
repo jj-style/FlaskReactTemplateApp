@@ -1,6 +1,7 @@
 # Flask React Template App
 
 ![React CI](https://github.com/jj-style/FlaskReactTemplateApp/workflows/React%20CI/badge.svg)
+![Flask CI](https://github.com/jj-style/FlaskReactTemplateApp/workflows/Flask%20CI/badge.svg)
 
 Simple flask and react apps useful for starting a web project.  
   
