@@ -6,7 +6,11 @@ test:
 	@npm install
 	@CI=true npm test
 
-.PHONY: build
-build:
+.PHONY: npm-build
+npm-build:
 	@npm install
 	@npm run build
+
+.PHONY: docker-build
+docker-build:
+	@docker build . -t webtemplate-react:latest
