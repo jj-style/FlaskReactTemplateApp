@@ -1,8 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for
 from flask import current_app as app
 
-from app.models import Post, User
-from app import db
 from .forms import PostForm
 
 admin_bp = Blueprint(

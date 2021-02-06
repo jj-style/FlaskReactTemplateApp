@@ -1,9 +1,8 @@
-from flask_restful import Resource, marshal_with
+from flask_restful import Resource
 from flask_login import login_required
 from flask import current_app as app
 from flask import request
 
-from app.models import Post as PostModel
 
 from app.data import new_post_request
 

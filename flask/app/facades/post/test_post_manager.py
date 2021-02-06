@@ -1,7 +1,5 @@
 import pytest
-import json
 
-from .naiive_post_manager import NaiivePostManager
 from .post_factory import PostFactory
 from .post_manager import PostManager
 

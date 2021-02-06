@@ -1,5 +1,4 @@
 from .post_manager import PostManager
-from flask import url_for
 from app.data import post_response, posts_response, new_post_request
 
 

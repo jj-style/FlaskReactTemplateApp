@@ -25,6 +25,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Lint with Flak8
+        working-directory: flask
+        run: make lint
+
       - name: Run Unit Tests
         working-directory: flask
         run: make test

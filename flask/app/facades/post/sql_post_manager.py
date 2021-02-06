@@ -1,5 +1,4 @@
 from .post_manager import PostManager
-from flask import url_for
 from flask_login import current_user
 from app.models import Post as PostModel
 from app import db
